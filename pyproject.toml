@@ -1,0 +1,24 @@
+[project]
+name = "churn-predictor"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "fastapi>=0.135.1",
+    "joblib>=1.5.3",
+    "mlflow>=3.10.1",
+    "pandas>=2.3.3",
+    "pydantic>=2.12.5",
+    "python-multipart>=0.0.22",
+    "pyyaml>=6.0.3",
+    "scikit-learn>=1.8.0",
+    "uvicorn>=0.42.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.0.2",
+    "ruff>=0.15.7",
+]
