@@ -107,6 +107,7 @@ The trained model is exposed via a REST API using FastAPI.
   "InternetService": "Fiber optic",
   "OnlineSecurity": "No"
 }
+```
 
 #### Example response:
 
@@ -197,8 +198,17 @@ http://localhost:8000/docs
 - Metrics → `artifacts/metrics/`
 - MLflow runs → `mlruns/`
 
+## Batch Inference
+
+The project includes a batch prediction pipeline that processes datasets and generates predictions in bulk.
+
+Run:
+
+```bash
+uv run python -m scripts.batch_predict
+```
+
 ## Future Improvements
-- Batch inference pipeline
 - Model monitoring (drift detection)
 - CI/CD pipeline
 - Cloud deployment (AWS / Azure)
