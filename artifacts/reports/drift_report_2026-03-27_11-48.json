@@ -1,0 +1,96 @@
+{
+  "timestamp": "2026-03-27 11:48:26",
+  "drift_detected": true,
+  "numeric_checks": {
+    "tenure": {
+      "reference_mean": 35.1915,
+      "current_mean": 34.0,
+      "mean_shift": 1.1914999999999978,
+      "reference_std": 20.516366354552094,
+      "current_std": 25.915246477701114,
+      "std_shift": 5.39888012314902,
+      "mean_drift_flag": false,
+      "std_drift_flag": true
+    },
+    "MonthlyCharges": {
+      "reference_mean": 69.849745,
+      "current_mean": 86.09333333333332,
+      "mean_shift": 16.24358833333332,
+      "reference_std": 28.805890711012605,
+      "current_std": 23.579850437750164,
+      "std_shift": 5.226040273262441,
+      "mean_drift_flag": true,
+      "std_drift_flag": false
+    },
+    "TotalCharges": {
+      "reference_mean": 2458.7769550000003,
+      "current_mean": 2717.935,
+      "mean_shift": 259.1580449999997,
+      "reference_std": 1874.1209797801218,
+      "current_std": 2324.951092816793,
+      "std_shift": 450.83011303667104,
+      "mean_drift_flag": false,
+      "std_drift_flag": true
+    }
+  },
+  "categorical_checks": {
+    "Contract": {
+      "reference_top_value": "One year",
+      "current_top_value": "Two year",
+      "top_value_changed": true,
+      "reference_distribution": {
+        "One year": 0.344,
+        "Two year": 0.3345,
+        "Month-to-month": 0.3215
+      },
+      "current_distribution": {
+        "Two year": 0.5,
+        "One year": 0.3333,
+        "Month-to-month": 0.1667
+      }
+    },
+    "PaymentMethod": {
+      "reference_top_value": "Mailed check",
+      "current_top_value": "Mailed check",
+      "top_value_changed": false,
+      "reference_distribution": {
+        "Mailed check": 0.262,
+        "Electronic check": 0.259,
+        "Bank transfer": 0.243,
+        "Credit card": 0.236
+      },
+      "current_distribution": {
+        "Mailed check": 0.5,
+        "Bank transfer": 0.3333,
+        "Electronic check": 0.1667
+      }
+    },
+    "InternetService": {
+      "reference_top_value": "Fiber optic",
+      "current_top_value": "No",
+      "top_value_changed": true,
+      "reference_distribution": {
+        "Fiber optic": 0.338,
+        "DSL": 0.3315,
+        "No": 0.3305
+      },
+      "current_distribution": {
+        "No": 0.6667,
+        "DSL": 0.3333
+      }
+    },
+    "OnlineSecurity": {
+      "reference_top_value": "Yes",
+      "current_top_value": "No",
+      "top_value_changed": true,
+      "reference_distribution": {
+        "Yes": 0.5215,
+        "No": 0.4785
+      },
+      "current_distribution": {
+        "No": 0.5,
+        "Yes": 0.5
+      }
+    }
+  }
+}

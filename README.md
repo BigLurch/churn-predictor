@@ -208,8 +208,22 @@ Run:
 uv run python -m scripts.batch_predict
 ```
 
+## Drift Detection
+
+The project includes a simple drift detection step that compares new batch input data against the reference training dataset.
+
+It checks:
+- numeric feature shifts (mean and standard deviation)
+- categorical distribution changes
+- potential drift flags stored in JSON reports
+
+Run:
+
+```bash
+uv run python -m scripts.check_drift
+```
+
 ## Future Improvements
-- Model monitoring (drift detection)
 - CI/CD pipeline
 - Cloud deployment (AWS / Azure)
 - Feature store integration
