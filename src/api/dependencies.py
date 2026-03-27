@@ -7,14 +7,16 @@ from pathlib import Path
 
 MODEL_PATH = Path("artifacts/models/churn_model.joblib")
 
+_model = None
+
 
 def load_model():
-    if not MODEL_PATH.exists():
-        raise FileNotFoundError(f"Model not found at {MODEL_PATH}")
+    global _model
 
-    model = joblib.load(MODEL_PATH)
-    return model
+    if _model is None:
+        if not MODEL_PATH.exists():
+            raise FileNotFoundError(f"Model not found at {MODEL_PATH}")
 
+        _model = joblib.load(MODEL_PATH)
 
-# Singleton-style loading
-model = load_model()
+    return _model

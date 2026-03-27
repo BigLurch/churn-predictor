@@ -223,6 +223,16 @@ Run:
 uv run python -m scripts.check_drift
 ```
 
+## CI/CD
+
+The project includes a GitHub Actions workflow that automatically:
+
+- installs dependencies
+- runs linting with Ruff
+- runs automated tests with Pytest
+
+This helps ensure code quality and reproducibility on every push and pull request.
+
 ## Future Improvements
 - CI/CD pipeline
 - Cloud deployment (AWS / Azure)

@@ -12,7 +12,6 @@ import json
 import joblib
 import mlflow
 import mlflow.sklearn
-import pandas as pd
 
 from sklearn.model_selection import train_test_split
 

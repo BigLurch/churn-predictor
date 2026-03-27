@@ -6,7 +6,7 @@ from fastapi import APIRouter, HTTPException
 import pandas as pd
 
 from src.api.schemas import PredictionRequest, PredictionResponse
-from src.api.dependencies import model
+from src.api.dependencies import load_model
 from src.features.build_features import build_features
 from src.monitoring.logger import get_logger
 from src.api.routes.metrics import service_metrics
@@ -23,6 +23,7 @@ def predict(request: PredictionRequest):
         data = pd.DataFrame([request.model_dump()])
         data = build_features(data)
 
+        model = load_model()
         prediction = model.predict(data)[0]
         probability = model.predict_proba(data)[0][1]
 
