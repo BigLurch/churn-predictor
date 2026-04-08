@@ -2,7 +2,6 @@
 
 This project demonstrates an end-to-end machine learning pipeline for predicting customer churn, designed to mimic a production-ready MLOps system.
 
----
 
 ## Live Demo
 
@@ -11,7 +10,6 @@ https://churn-predictor-65f9.onrender.com/docs
 
 > Note: The service is hosted on Render's free tier. If the API has been inactive, the first request may take 30–60 seconds due to cold start.
 
----
 
 ## Project Overview
 
@@ -27,7 +25,6 @@ The goal of this project is to build a complete and reproducible ML workflow, co
 
 The system is structured to reflect real-world MLOps practices rather than just a simple ML script.
 
----
 
 ## What Has Been Implemented
 
@@ -127,6 +124,8 @@ The trained model is exposed via a REST API using FastAPI.
 }
 ```
 
+---
+
 ### 7. Observability
 
 The API includes basic observability features:
@@ -135,6 +134,8 @@ The API includes basic observability features:
 - `/health` endpoint
 - `/metrics` endpoint for request tracking
 
+---
+
 ### 8. Artifact Management
 
 After training:
@@ -142,12 +143,16 @@ After training:
 - Metrics → `artifacts/metrics/`
 This ensures traceability and reproducibility.
 
+---
+
 ### 9. Reproducible Environment
 
 The project uses:
 - `uv` for dependency management
 - `pyproject.toml` + `uv.lock`
 - Python 3.11
+
+---
 
 ### 10. Containerization (Docker)
 
@@ -176,15 +181,21 @@ churn-predictor/
 uv run python -m scripts.generate_data
 ```
 
+---
+
 ### 2. Train model
 ```bash
 uv run python -m scripts.train
 ```
 
+---
+
 ### 3. Run API
 ```bash
 uv run uvicorn src.api.main:app --reload
 ```
+
+---
 
 #### Open:
 ```
