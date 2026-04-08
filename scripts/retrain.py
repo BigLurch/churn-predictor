@@ -31,15 +31,23 @@ def run_retraining():
     MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
     import joblib
+
+    # 1. Save the new model
+    model_path = MODEL_DIR / f"churn_model_{timestamp}.joblib"
     joblib.dump(model, model_path)
 
-    metrics_path = METRICS_DIR / f"metrics_{timestamp}.json"
+    # 2. Update the latest model
+    latest_model_path = MODEL_DIR / "churn_model.joblib"
+    joblib.dump(model, latest_model_path)
+
     METRICS_DIR.mkdir(parents=True, exist_ok=True)
+    metrics_path = METRICS_DIR / f"metrics_{timestamp}.json"
 
     with open(metrics_path, "w") as f:
         json.dump(metrics, f, indent=2)
 
     print(f"New model saved to: {model_path}")
+    print(f"Latest model updated: {latest_model_path}")
     print(f"Metrics saved to: {metrics_path}")
 
 

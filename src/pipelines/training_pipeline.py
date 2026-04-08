@@ -85,7 +85,7 @@ def run_training_pipeline(
         with open(metrics_output_path, "w", encoding="utf-8") as f:
             json.dump(metrics, f, indent=2)
 
-        mlflow.sklearn.log_model(model_pipeline, artifact_path="model")
+        mlflow.sklearn.log_model(model_pipeline, name="model")
 
     return {
         "model": model_pipeline,
