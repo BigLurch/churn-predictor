@@ -28,8 +28,12 @@ METRICS_OUTPUT_PATH = "artifacts/metrics/train_metrics.json"
 TARGET_COLUMN = "Churn"
 
 
-def run_training_pipeline():
-    df = load_csv_data(DATA_PATH)
+def run_training_pipeline(
+    data_path: str = DATA_PATH,
+    model_output_path: str = MODEL_OUTPUT_PATH,
+    metrics_output_path: str = METRICS_OUTPUT_PATH,
+):
+    df = load_csv_data(data_path)
     df = build_features(df)
 
     if TARGET_COLUMN not in df.columns:
@@ -37,7 +41,6 @@ def run_training_pipeline():
 
     df = df.copy()
 
-    # Enkel target-mappning för klassisk churn-data
     if df[TARGET_COLUMN].dtype == "object":
         df[TARGET_COLUMN] = df[TARGET_COLUMN].map({"Yes": 1, "No": 0})
 
@@ -54,7 +57,7 @@ def run_training_pipeline():
         y,
         test_size=0.2,
         random_state=42,
-        stratify=y
+        stratify=y,
     )
 
     mlflow.set_experiment("churn-predictor-training")
@@ -74,18 +77,19 @@ def run_training_pipeline():
         for metric_name, metric_value in metrics.items():
             mlflow.log_metric(metric_name, metric_value)
 
-        Path("artifacts/models").mkdir(parents=True, exist_ok=True)
-        Path("artifacts/metrics").mkdir(parents=True, exist_ok=True)
+        Path(model_output_path).parent.mkdir(parents=True, exist_ok=True)
+        Path(metrics_output_path).parent.mkdir(parents=True, exist_ok=True)
 
-        joblib.dump(model_pipeline, MODEL_OUTPUT_PATH)
+        joblib.dump(model_pipeline, model_output_path)
 
-        with open(METRICS_OUTPUT_PATH, "w", encoding="utf-8") as f:
+        with open(metrics_output_path, "w", encoding="utf-8") as f:
             json.dump(metrics, f, indent=2)
 
         mlflow.sklearn.log_model(model_pipeline, artifact_path="model")
 
     return {
-        "model_path": MODEL_OUTPUT_PATH,
-        "metrics_path": METRICS_OUTPUT_PATH,
+        "model": model_pipeline,
+        "model_path": model_output_path,
+        "metrics_path": metrics_output_path,
         "metrics": metrics,
     }

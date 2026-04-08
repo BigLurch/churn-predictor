@@ -234,6 +234,5 @@ The project includes a GitHub Actions workflow that automatically:
 This helps ensure code quality and reproducibility on every push and pull request.
 
 ## Future Improvements
-- CI/CD pipeline
 - Cloud deployment (AWS / Azure)
 - Feature store integration
