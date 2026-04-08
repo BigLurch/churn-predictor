@@ -2,6 +2,11 @@
 
 This project demonstrates an end-to-end machine learning pipeline for predicting customer churn, designed to mimic a production-ready MLOps system.
 
+## Live Demo
+
+Try the API here:
+https://churn-predictor-65f9.onrender.com/docs
+
 ---
 
 ## Project Overview
@@ -233,6 +238,19 @@ The project includes a GitHub Actions workflow that automatically:
 
 This helps ensure code quality and reproducibility on every push and pull request.
 
+## Deployment
+
+The application is deployed as a live, containerized API using Render.
+
+- The FastAPI service is packaged with Docker and deployed from the GitHub repository
+- Automatic deployments are triggered on every push via GitHub integration
+- A health check endpoint (`/health`) is used to monitor service availability
+- The API is publicly accessible and can be tested directly through the interactive Swagger UI
+
+### Live API:
+https://churn-predictor-65f9.onrender.com/docs
+
+This allows the model to be used in a real-world setting, enabling external users to send requests and receive predictions in real time.
+
 ## Future Improvements
-- Cloud deployment (AWS / Azure)
 - Feature store integration
