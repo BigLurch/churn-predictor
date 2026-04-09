@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Churn Predictor</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+</head>
+
+<body>
+    <main class="container">
+        <section class="hero">
+            <h1>Churn Predictor</h1>
+            <p>
+                A production-inspired MLOps project for customer churn prediction.
+                Generate sample customers, run batch predictions, and explore model outputs in a simple demo UI.
+            </p>
+
+            <div class="hero-links">
+                <a href="/docs" target="_blank" rel="noreferrer">API Docs</a>
+                <a href="/health" target="_blank" rel="noreferrer">Health Check</a>
+                <a href="/metrics" target="_blank" rel="noreferrer">Metrics</a>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="section-header">
+                <h2>1. Generate Sample Customers</h2>
+                <button id="generate-btn">Generate Sample Customers</button>
+            </div>
+            <div id="customer-table-wrapper" class="table-wrapper">
+                <p class="placeholder">No sample customers generated yet.</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="section-header">
+                <h2>2. Predict Churn</h2>
+                <button id="predict-btn" disabled>Predict Churn</button>
+            </div>
+            <div id="prediction-summary" class="summary hidden"></div>
+            <div id="prediction-table-wrapper" class="table-wrapper">
+                <p class="placeholder">Prediction results will appear here.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>

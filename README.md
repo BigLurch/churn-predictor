@@ -267,5 +267,13 @@ https://churn-predictor-65f9.onrender.com/docs
 
 This allows the model to be used in a real-world setting, enabling external users to send requests and receive predictions in real time.
 
-## Future Improvements
-- Feature store integration
+## Demo UI
+
+The project includes a simple web interface built on top of the FastAPI service.
+
+The UI allows users to:
+- generate a sample list of customers
+- run batch churn predictions
+- view prediction probabilities, labels, and risk levels in a clean table
+
+This makes the project easier to demo and provides a more user-friendly interface than the default API documentation.
