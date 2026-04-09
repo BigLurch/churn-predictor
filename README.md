@@ -6,7 +6,7 @@ This project demonstrates an end-to-end machine learning pipeline for predicting
 ## Live Demo
 
 Try the API here:
-https://churn-predictor-65f9.onrender.com/docs
+https://churn-predictor-65f9.onrender.com
 
 > Note: The service is hosted on Render's free tier. If the API has been inactive, the first request may take 30–60 seconds due to cold start.
 
