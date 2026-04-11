@@ -2,14 +2,14 @@
 
 # Provides sample customer data that can be used for UI demos and testing.
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 import random
 
 router = APIRouter()
 
 
 @router.get("/sample-customers")
-def get_sample_customers():
+def get_sample_customers(count: int = Query(default=5, ge=1, le=100)):
     contracts = ["Month-to-month", "One year", "Two year"]
     payment_methods = ["Electronic check", "Mailed check", "Bank transfer", "Credit card"]
     internet_services = ["DSL", "Fiber optic", "No"]
@@ -17,7 +17,7 @@ def get_sample_customers():
 
     customers = []
 
-    for _ in range(5):
+    for _ in range(count):
         tenure = random.randint(1, 72)
         monthly_charges = round(random.uniform(20, 120), 2)
         total_charges = round(tenure * monthly_charges, 2)

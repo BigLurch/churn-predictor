@@ -2,19 +2,48 @@ let currentCustomers = [];
 
 const generateBtn = document.getElementById("generate-btn");
 const predictBtn = document.getElementById("predict-btn");
+const customerCountMode = document.getElementById("customer-count-mode");
+const customerCountCustom = document.getElementById("customer-count-custom");
 const customerTableWrapper = document.getElementById("customer-table-wrapper");
 const predictionTableWrapper = document.getElementById("prediction-table-wrapper");
 const predictionSummary = document.getElementById("prediction-summary");
 
 generateBtn.addEventListener("click", generateSampleCustomers);
 predictBtn.addEventListener("click", predictBatch);
+customerCountMode.addEventListener("change", toggleCustomCountInput);
+
+function toggleCustomCountInput() {
+    if (customerCountMode.value === "custom") {
+        customerCountCustom.classList.remove("hidden-input");
+    } else {
+        customerCountCustom.classList.add("hidden-input");
+    }
+}
 
 async function generateSampleCustomers() {
     try {
         generateBtn.disabled = true;
         generateBtn.textContent = "Generating...";
 
-        const response = await fetch("/sample-customers");
+        let count;
+
+        if (customerCountMode.value === "custom") {
+            count = parseInt(customerCountCustom.value, 10);
+
+            if (!count || count < 1 || count > 100) {
+                customerTableWrapper.innerHTML = `<p class="placeholder">Please enter a custom number between 1 and 100.</p>`;
+                return;
+            }
+        } else {
+            count = customerCountMode.value;
+        }
+
+        const response = await fetch(`/sample-customers?count=${count}`);
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch sample customers.");
+        }
+
         const data = await response.json();
 
         currentCustomers = data.customers || [];
@@ -45,6 +74,10 @@ async function predictBatch() {
             },
             body: JSON.stringify({ customers: currentCustomers }),
         });
+
+        if (!response.ok) {
+            throw new Error("Prediction request failed.");
+        }
 
         const data = await response.json();
         const results = data.results || [];
@@ -143,5 +176,8 @@ function renderPredictionSummary(results) {
         <div class="summary-badge risk-medium">Medium Risk: ${medium}</div>
         <div class="summary-badge risk-low">Low Risk: ${low}</div>
     `;
+
     predictionSummary.classList.remove("hidden");
 }
+
+toggleCustomCountInput();

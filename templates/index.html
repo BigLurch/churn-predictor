@@ -27,7 +27,20 @@
         <section class="card">
             <div class="section-header">
                 <h2>1. Generate Sample Customers</h2>
-                <button id="generate-btn">Generate Sample Customers</button>
+                <div class="controls">
+                    <label for="customer-count-mode">Number of customers:</label>
+
+                    <select id="customer-count-mode">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="custom">Custom</option>
+                    </select>
+
+                    <input type="number" id="customer-count-custom" min="1" max="100" value=""
+                        placeholder="Between 1-100" class="hidden-input" />
+
+                    <button id="generate-btn">Generate Sample Customers</button>
+                </div>
             </div>
             <div id="customer-table-wrapper" class="table-wrapper">
                 <p class="placeholder">No sample customers generated yet.</p>

@@ -180,6 +180,41 @@ tr:last-child td {
     border: 1px solid var(--border);
 }
 
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.controls label {
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.controls select {
+    background: #0b1220;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+}
+
+.hidden-input {
+    display: none;
+}
+
+.controls input[type="number"] {
+    background: #0b1220;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    width: 160px;
+}
+
 @media (max-width: 700px) {
     .hero h1 {
         font-size: 2rem;
