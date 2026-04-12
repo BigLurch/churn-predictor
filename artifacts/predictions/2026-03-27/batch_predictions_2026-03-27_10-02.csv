@@ -1,7 +1,0 @@
-tenure,MonthlyCharges,TotalCharges,Contract,PaymentMethod,InternetService,OnlineSecurity,Churn,prediction,probability,label,risk_level
-52,45.47,2364.44,Two year,Electronic check,No,No,Yes,1,0.5212131522206045,churn,medium
-41,93.3,3825.3,Month-to-month,Mailed check,No,No,No,1,0.6014831972017121,churn,medium
-1,85.87,85.87,One year,Bank transfer,DSL,No,Yes,0,0.3848253671186705,no_churn,medium
-2,113.16,226.32,Two year,Mailed check,No,Yes,Yes,0,0.427739590297074,no_churn,medium
-60,102.1,6126.0,Two year,Bank transfer,DSL,Yes,No,0,0.288726709864705,no_churn,low
-48,76.66,3679.68,One year,Mailed check,No,Yes,No,0,0.2813484842026054,no_churn,low

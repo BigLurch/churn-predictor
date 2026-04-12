@@ -1,279 +1,344 @@
 # Churn Predictor (MLOps Project)
 
-This project demonstrates an end-to-end machine learning pipeline for predicting customer churn, designed to mimic a production-ready MLOps system.
+An end-to-end machine learning system for predicting customer churn, built to simulate a production-style MLOps workflow.
 
+This project combines:
 
-## Live Demo
+* machine learning pipelines
+* experiment tracking
+* model serving APIs
+* containerized deployment
+* CI/CD automation
+* interactive business-facing demo UI
 
-Try the API here:
+---
+
+# Live Demo
+
+### Web App
+
 https://churn-predictor-65f9.onrender.com
 
-> Note: The service is hosted on Render's free tier. If the API has been inactive, the first request may take 30–60 seconds due to cold start.
+### API Docs (Swagger)
 
+https://churn-predictor-65f9.onrender.com/docs
 
-## Project Overview
-
-The goal of this project is to build a complete and reproducible ML workflow, covering:
-
-- Data generation and ingestion
-- Feature engineering
-- Preprocessing and model training
-- Model evaluation
-- Experiment tracking
-- Model serving via API
-- Containerized deployment
-
-The system is structured to reflect real-world MLOps practices rather than just a simple ML script.
-
-
-## What Has Been Implemented
-
-### 1. Synthetic Data Generation
-A realistic churn dataset is generated with controlled patterns to simulate customer behavior.
-
-- Numerical features (e.g., tenure, charges)
-- Categorical features (e.g., contract type, payment method)
-- Target variable: `Churn` (Yes/No)
+> Note: Hosted on Render free tier. First request after inactivity may take 30–60 seconds (cold start).
 
 ---
 
-### 2. Modular Data Pipeline
+# Project Goal
 
-The pipeline is split into clear responsibilities:
+The purpose of this project was to build a realistic portfolio-ready MLOps system that goes beyond simple model training.
 
-- **Data loading** → `src/data/`
-- **Feature engineering** → `src/features/`
-- **Preprocessing** → `src/data/preprocess.py`
-- **Model training** → `src/models/`
-- **Pipeline orchestration** → `src/pipelines/`
+It demonstrates how a churn model can be:
 
-This structure improves readability, maintainability, and testability.
-
----
-
-### 3. Machine Learning Pipeline
-
-A full training pipeline has been implemented using:
-
-- `scikit-learn` Pipeline
-- `ColumnTransformer` for handling mixed data types
-- Logistic Regression as baseline model
-
-This ensures:
-- Consistent preprocessing
-- No data leakage
-- Reproducible training and inference
+* trained
+* versioned
+* evaluated
+* deployed
+* monitored
+* used through a real interface
 
 ---
 
-### 4. Model Evaluation
+# Key Features
 
-The model is evaluated using multiple metrics:
+## Machine Learning
 
-- Accuracy
-- Precision
-- Recall
-- F1-score
-- ROC-AUC
+* Synthetic telecom churn dataset generation
+* Feature engineering pipeline
+* Logistic Regression baseline model
+* Scikit-learn Pipeline + ColumnTransformer
+* Evaluation with multiple metrics:
 
-This provides a more complete understanding of model performance.
-
----
-
-### 5. Experiment Tracking (MLflow)
-
-All training runs are logged using MLflow:
-
-- Parameters
-- Metrics
-- Trained models
-
-This enables experiment comparison and model versioning.
+  * Accuracy
+  * Precision
+  * Recall
+  * F1-score
+  * ROC-AUC
 
 ---
 
-### 6. Model Serving (FastAPI)
+## MLOps Engineering
 
-The trained model is exposed via a REST API using FastAPI.
-
-#### Endpoints:
-- `/predict` → returns churn prediction
-- `/health` → service status
-- `/metrics` → basic monitoring metrics
-
-#### Example request:
-
-```json
-{
-  "tenure": 12,
-  "MonthlyCharges": 70.5,
-  "TotalCharges": 846,
-  "Contract": "Month-to-month",
-  "PaymentMethod": "Electronic check",
-  "InternetService": "Fiber optic",
-  "OnlineSecurity": "No"
-}
-```
-
-#### Example response:
-
-```json
-{
-  "prediction": 1,
-  "probability": 0.82
-}
-```
+* MLflow experiment tracking
+* Artifact management
+* Docker containerization
+* CI/CD with GitHub Actions
+* Health monitoring endpoints
+* Structured API logging
+* Retraining scripts
+* Batch prediction pipeline
+* Drift detection checks
 
 ---
 
-### 7. Observability
+## Product / UI Layer
 
-The API includes basic observability features:
-- Structured logging for requests and predictions
-- Error logging with stack traces
-- `/health` endpoint
-- `/metrics` endpoint for request tracking
+A custom web interface was built on top of FastAPI for easier demos and business usage.
 
----
+Users can:
 
-### 8. Artifact Management
-
-After training:
-- Model → `artifacts/models/`
-- Metrics → `artifacts/metrics/`
-This ensures traceability and reproducibility.
+* Generate sample customer datasets
+* Predict churn in batch
+* Filter results by risk level
+* Search prediction results
+* Export filtered data to CSV
+* Edit customer rows for what-if analysis
+* Navigate large datasets with pagination
 
 ---
 
-### 9. Reproducible Environment
+# Demo UI Preview
 
-The project uses:
-- `uv` for dependency management
-- `pyproject.toml` + `uv.lock`
-- Python 3.11
+*Add screenshots here later*
+
+Recommended screenshots:
+
+1. Main dashboard
+2. Prediction results
+3. Search + filter
+4. Editable rows / scenario testing
 
 ---
 
-### 10. Containerization (Docker)
+# Tech Stack
 
-The application is fully containerized using Docker.
+## Backend
 
-This allows:
-- consistent runtime environment
-- easy deployment
-- environment isolation
+* Python 3.11
+* FastAPI
+* Uvicorn
 
-## Project Structure
-```
+## Machine Learning
+
+* scikit-learn
+* pandas
+* numpy
+
+## MLOps
+
+* MLflow
+* Docker
+* GitHub Actions
+
+## Frontend
+
+* HTML
+* CSS
+* JavaScript
+
+## Deployment
+
+* Render
+
+---
+
+# Project Structure
+
+```bash
 churn-predictor/
-├── src/
-├── data/
+│
+├── .github/
+│   └── workflows
+│     └── ci.yml
 ├── artifacts/
+│   ├── metrics/
+│   | └── train_metrics.json
+│   └── models/
+│     └── churn_model.joblib
 ├── configs/
+│   ├── api_config.yaml
+│   ├── config.yaml
+│   └── model_config.yaml
+├── data/
+│   ├── processed/
+│   | └── batch_input.csv
+│   └── raw/
+│     └── customer_churn.csv
 ├── scripts/
+│   ├── batch_predict.py
+│   ├── check_drift.py
+│   ├── generate_data.py
+│   ├── retrain.py
+│   └── train.py
+├── src/
+│   ├── api/
+│   | ├── routes/
+│   | | ├── health.py
+│   | | ├── metrics.py
+│   | | ├── predict_batch.py
+│   | | ├── predict.py
+│   | | ├── sample.py
+│   | | └── ui.py
+│   | ├── dependencies.py
+│   | ├── main.py
+│   | └── schemas.py
+│   ├── data/
+│   | ├── load_data.py
+│   | └── preprocess.py
+│   ├── features/
+│   | └── build_features.py
+│   ├── models/
+│   | ├── evaluate.py
+│   | └── train_model.py
+│   ├── monitoring/
+│   | ├── drift.py
+│   | └── logger.py
+│   └── pipelines/
+│     └── training_pipeline.py
+├── static/
+│   ├── css/
+│   | └── styles.css
+│   └── js/
+│     └── app.js
+├── templates/
+│   └── index.html
 ├── tests/
+│   ├── test_api.py
+│   └── test_features.py
+├── .dockerignore
+├── .gitignore
+├── .python-version
+├── Dockerfile
+├── pyproject.toml
+├── README.md
+├── requirements.txt
+└── uv.lock
 ```
 
-## How to Run
+---
 
-### 1. Generate dataset
+# Run Locally
+
+## Install dependencies
+
+```bash
+uv sync
+```
+
+---
+
+## Generate dataset
+
 ```bash
 uv run python -m scripts.generate_data
 ```
 
 ---
 
-### 2. Train model
+## Train model
+
 ```bash
 uv run python -m scripts.train
 ```
 
 ---
 
-### 3. Run API
+## Start API
+
 ```bash
 uv run uvicorn src.api.main:app --reload
 ```
 
----
+Open:
 
-#### Open:
+```text
+http://127.0.0.1:8000
 ```
+
+Swagger docs:
+
+```text
 http://127.0.0.1:8000/docs
 ```
 
-## Run with Docker
+---
+
+# Run with Docker
+
 ```bash
 docker build -t churn-predictor .
 docker run -p 8000:8000 churn-predictor
 ```
 
-#### Then open:
-```
-http://localhost:8000/docs
-```
+---
 
-## Outputs
-- Trained model → `artifacts/models/`
-- Metrics → `artifacts/metrics/`
-- MLflow runs → `mlruns/`
+# Batch Inference
 
-## Batch Inference
-
-The project includes a batch prediction pipeline that processes datasets and generates predictions in bulk.
-
-Run:
+Run predictions on generated datasets:
 
 ```bash
 uv run python -m scripts.batch_predict
 ```
 
-## Drift Detection
+---
 
-The project includes a simple drift detection step that compares new batch input data against the reference training dataset.
+# Drift Detection
 
-It checks:
-- numeric feature shifts (mean and standard deviation)
-- categorical distribution changes
-- potential drift flags stored in JSON reports
-
-Run:
+Compare new incoming data to training reference data:
 
 ```bash
 uv run python -m scripts.check_drift
 ```
 
-## CI/CD
+Detects:
 
-The project includes a GitHub Actions workflow that automatically:
+* mean/std drift
+* categorical distribution shifts
+* warning reports in JSON
 
-- installs dependencies
-- runs linting with Ruff
-- runs automated tests with Pytest
+---
 
-This helps ensure code quality and reproducibility on every push and pull request.
+# CI/CD
 
-## Deployment
+GitHub Actions automatically runs on push / pull request:
 
-The application is deployed as a live, containerized API using Render.
+* Ruff linting
+* Pytest test suite
+* dependency install checks
 
-- The FastAPI service is packaged with Docker and deployed from the GitHub repository
-- Automatic deployments are triggered on every push via GitHub integration
-- A health check endpoint (`/health`) is used to monitor service availability
-- The API is publicly accessible and can be tested directly through the interactive Swagger UI
+---
 
-### Live API:
-https://churn-predictor-65f9.onrender.com/docs
+# Deployment
 
-This allows the model to be used in a real-world setting, enabling external users to send requests and receive predictions in real time.
+The project is deployed as a live Dockerized FastAPI application on Render.
 
-## Demo UI
+Features:
 
-The project includes a simple web interface built on top of the FastAPI service.
+* auto deploy from GitHub
+* health checks
+* public API access
+* production-style hosting workflow
 
-The UI allows users to:
-- generate a sample list of customers
-- run batch churn predictions
-- view prediction probabilities, labels, and risk levels in a clean table
+---
 
-This makes the project easier to demo and provides a more user-friendly interface than the default API documentation.
+# Why This Project Matters
+
+Many ML projects stop after model training.
+
+This project demonstrates the full lifecycle:
+
+```text
+Data → Features → Model → API → Docker → CI/CD → Cloud → UI
+```
+
+That is the difference between a notebook project and an MLOps project.
+
+---
+
+# Future Improvements
+
+* Model registry promotion flow
+* A/B model serving
+* Authentication
+* Real customer dataset integration
+* Monitoring dashboard
+* Kubernetes deployment
+
+---
+
+# Author
+
+Built by Jonas Johansson as a portfolio project focused on MLOps Engineering.
