@@ -75,7 +75,7 @@
                     <button id="generate-btn">Generate Sample Customers</button>
                 </div>
             </div>
-            <div id="customer-table-wrapper" class="table-wrapper">
+            <div id="customer-table-wrapper" class="table-wrapper-top">
                 <p class="placeholder">No sample customers generated yet.</p>
             </div>
         </section>
@@ -85,25 +85,30 @@
                 <h2>2. Predict Churn</h2>
                 <button id="predict-btn" disabled>Predict Churn</button>
             </div>
-            <div id="prediction-summary" class="summary hidden"></div>
 
-            <div id="prediction-controls" class="table-controls hidden">
-                <input type="text" id="prediction-search" placeholder="Search contract, payment method, service..." />
+            <div id="prediction-panel" class="data-panel">
+                <div id="prediction-summary" class="summary hidden"></div>
+                <div id="prediction-summary" class="summary hidden"></div>
 
-                <select id="risk-filter">
-                    <option value="all">All Risk Levels</option>
-                    <option value="high">High Risk</option>
-                    <option value="medium">Medium Risk</option>
-                    <option value="low">Low Risk</option>
-                </select>
+                <div id="prediction-controls" class="table-controls hidden">
+                    <input type="text" id="prediction-search"
+                        placeholder="Search contract, payment method, service..." />
 
-                <button id="download-csv-btn">Download CSV</button>
+                    <select id="risk-filter">
+                        <option value="all">All Risk Levels</option>
+                        <option value="high">High Risk</option>
+                        <option value="medium">Medium Risk</option>
+                        <option value="low">Low Risk</option>
+                    </select>
+
+                    <button id="download-csv-btn">Download CSV</button>
+                </div>
+
+                <div id="prediction-table-wrapper" class="table-wrapper-bottom">
+                    <p class="placeholder">Prediction results will appear here.</p>
+                </div>
+
             </div>
-
-            <div id="prediction-table-wrapper" class="table-wrapper">
-                <p class="placeholder">Prediction results will appear here.</p>
-            </div>
-
             <div id="prediction-pagination" class="pagination hidden">
                 <button id="prediction-prev-btn">Previous</button>
                 <span id="prediction-page-info">Page 1 of 1</span>

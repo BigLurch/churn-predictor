@@ -248,6 +248,7 @@ tr:last-child td {
 .table-controls {
     display: flex;
     gap: 12px;
+    padding: 0 16px;
     flex-wrap: wrap;
     margin-bottom: 16px;
 }
@@ -269,6 +270,46 @@ tr:last-child td {
 .table-controls input {
     min-width: 280px;
     flex: 1;
+}
+
+.table-wrapper-top {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 520px;
+}
+
+.table-wrapper-bottom {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.table-wrapper.active {
+    border-radius: 14px;
+    border: 1px solid var(--border);
+}
+
+.table-wrapper table {
+    min-width: 900px;
+}
+
+.table-meta {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.data-panel {
+    margin-top: 16px;
+}
+
+.data-panel.active {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(11, 18, 32, 0.35);
 }
 
 .pagination {
@@ -302,7 +343,7 @@ tr:last-child td {
 
 .summary-card {
     padding: 14px;
-    border-radius: 14px;
+    border-radius: 14px 14px 0 0;
     background: #0b1220;
     border: 1px solid var(--border);
 }
@@ -310,6 +351,7 @@ tr:last-child td {
 .chart-row {
     display: flex;
     flex-direction: column;
+    padding: 0 16px;
     gap: 6px;
     font-size: 0.9rem;
     color: var(--text);

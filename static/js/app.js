@@ -20,6 +20,7 @@ const predictionPagination = document.getElementById("prediction-pagination");
 const predictionPrevBtn = document.getElementById("prediction-prev-btn");
 const predictionNextBtn = document.getElementById("prediction-next-btn");
 const predictionPageInfo = document.getElementById("prediction-page-info");
+const predictionPanel = document.getElementById("prediction-panel");
 
 generateBtn.addEventListener("click", generateSampleCustomers);
 predictBtn.addEventListener("click", predictBatch);
@@ -76,8 +77,12 @@ async function generateSampleCustomers() {
         currentPredictionResults = [];
         currentFilteredPredictionResults = [];
         predictionCurrentPage = 1;
-        predictionPagination.classList.add("hidden");
+
+        predictionPanel.classList.remove("active");
         predictionControls.classList.add("hidden");
+        predictionPagination.classList.add("hidden");
+        predictionSummary.classList.add("hidden");
+        predictionSummary.innerHTML = "";
         predictionSearch.value = "";
         riskFilter.value = "all";
     } catch (error) {
@@ -110,6 +115,7 @@ async function predictBatch() {
         const results = data.results || [];
         currentPredictionResults = results;
 
+        predictionPanel.classList.add("active");
         predictionControls.classList.remove("hidden");
         renderPredictionSummary(results);
         applyPredictionFilters();
@@ -149,9 +155,14 @@ function applyPredictionFilters() {
 
 function renderCustomers(customers) {
     if (!customers.length) {
+        customerTableWrapper.classList.add("active");
         customerTableWrapper.innerHTML = `<p class="placeholder">No customers available.</p>`;
         return;
     }
+
+    customerTableWrapper.classList.add("active");
+
+    const visibleCount = customers.length;
 
     const contractOptions = ["Month-to-month", "One year", "Two year"];
     const paymentOptions = ["Electronic check", "Mailed check", "Bank transfer", "Credit card"];
@@ -161,42 +172,65 @@ function renderCustomers(customers) {
     const rows = customers.map((customer, index) => `
         <tr>
             <td>
-                <input type="number" value="${customer.tenure}" min="1" max="72"
-                    onchange="updateCustomerField(${index}, 'tenure', this.value)" />
+                <input
+                    type="number"
+                    value="${customer.tenure}"
+                    min="1"
+                    max="72"
+                    onchange="updateCustomerField(${index}, 'tenure', this.value)"
+                />
             </td>
             <td>
-                <input type="number" value="${customer.MonthlyCharges}" min="0" step="0.01"
-                    onchange="updateCustomerField(${index}, 'MonthlyCharges', this.value)" />
+                <input
+                    type="number"
+                    value="${customer.MonthlyCharges}"
+                    min="0"
+                    step="0.01"
+                    onchange="updateCustomerField(${index}, 'MonthlyCharges', this.value)"
+                />
             </td>
             <td>
-                <input type="number" value="${customer.TotalCharges}" min="0" step="0.01"
-                    onchange="updateCustomerField(${index}, 'TotalCharges', this.value)" />
+                <input
+                    type="number"
+                    value="${customer.TotalCharges}"
+                    min="0"
+                    step="0.01"
+                    onchange="updateCustomerField(${index}, 'TotalCharges', this.value)"
+                />
             </td>
             <td>
                 <select onchange="updateCustomerField(${index}, 'Contract', this.value)">
                     ${contractOptions.map(option => `
-                        <option value="${option}" ${customer.Contract === option ? "selected" : ""}>${option}</option>
+                        <option value="${option}" ${customer.Contract === option ? "selected" : ""}>
+                            ${option}
+                        </option>
                     `).join("")}
                 </select>
             </td>
             <td>
                 <select onchange="updateCustomerField(${index}, 'PaymentMethod', this.value)">
                     ${paymentOptions.map(option => `
-                        <option value="${option}" ${customer.PaymentMethod === option ? "selected" : ""}>${option}</option>
+                        <option value="${option}" ${customer.PaymentMethod === option ? "selected" : ""}>
+                            ${option}
+                        </option>
                     `).join("")}
                 </select>
             </td>
             <td>
                 <select onchange="updateCustomerField(${index}, 'InternetService', this.value)">
                     ${internetOptions.map(option => `
-                        <option value="${option}" ${customer.InternetService === option ? "selected" : ""}>${option}</option>
+                        <option value="${option}" ${customer.InternetService === option ? "selected" : ""}>
+                            ${option}
+                        </option>
                     `).join("")}
                 </select>
             </td>
             <td>
                 <select onchange="updateCustomerField(${index}, 'OnlineSecurity', this.value)">
                     ${securityOptions.map(option => `
-                        <option value="${option}" ${customer.OnlineSecurity === option ? "selected" : ""}>${option}</option>
+                        <option value="${option}" ${customer.OnlineSecurity === option ? "selected" : ""}>
+                            ${option}
+                        </option>
                     `).join("")}
                 </select>
             </td>
@@ -204,6 +238,10 @@ function renderCustomers(customers) {
     `).join("");
 
     customerTableWrapper.innerHTML = `
+        <div class="table-meta">
+            Showing ${visibleCount} customers
+        </div>
+
         <table>
             <thead>
                 <tr>
