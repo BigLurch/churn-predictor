@@ -86,6 +86,18 @@
                 <button id="predict-btn" disabled>Predict Churn</button>
             </div>
             <div id="prediction-summary" class="summary hidden"></div>
+
+            <div id="prediction-controls" class="table-controls hidden">
+                <input type="text" id="prediction-search" placeholder="Search contract, payment method, service..." />
+
+                <select id="risk-filter">
+                    <option value="all">All Risk Levels</option>
+                    <option value="high">High Risk</option>
+                    <option value="medium">Medium Risk</option>
+                    <option value="low">Low Risk</option>
+                </select>
+            </div>
+
             <div id="prediction-table-wrapper" class="table-wrapper">
                 <p class="placeholder">Prediction results will appear here.</p>
             </div>

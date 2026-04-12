@@ -227,6 +227,32 @@ tr:last-child td {
     border-bottom: none;
 }
 
+.table-controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.table-controls.hidden {
+    display: none;
+}
+
+.table-controls input,
+.table-controls select {
+    background: #0b1220;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+}
+
+.table-controls input {
+    min-width: 280px;
+    flex: 1;
+}
+
 .placeholder {
     color: var(--muted);
     margin: 0;

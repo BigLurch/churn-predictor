@@ -1,4 +1,5 @@
 let currentCustomers = [];
+let currentPredictionResults = [];
 
 const generateBtn = document.getElementById("generate-btn");
 const predictBtn = document.getElementById("predict-btn");
@@ -7,10 +8,15 @@ const customerCountCustom = document.getElementById("customer-count-custom");
 const customerTableWrapper = document.getElementById("customer-table-wrapper");
 const predictionTableWrapper = document.getElementById("prediction-table-wrapper");
 const predictionSummary = document.getElementById("prediction-summary");
+const predictionControls = document.getElementById("prediction-controls");
+const predictionSearch = document.getElementById("prediction-search");
+const riskFilter = document.getElementById("risk-filter");
 
 generateBtn.addEventListener("click", generateSampleCustomers);
 predictBtn.addEventListener("click", predictBatch);
 customerCountMode.addEventListener("change", toggleCustomCountInput);
+predictionSearch.addEventListener("input", applyPredictionFilters);
+riskFilter.addEventListener("change", applyPredictionFilters);
 
 function toggleCustomCountInput() {
     if (customerCountMode.value === "custom") {
@@ -54,6 +60,11 @@ async function generateSampleCustomers() {
         predictionTableWrapper.innerHTML = `<p class="placeholder">Prediction results will appear here.</p>`;
         predictionSummary.classList.add("hidden");
         predictionSummary.innerHTML = "";
+
+        currentPredictionResults = [];
+        predictionControls.classList.add("hidden");
+        predictionSearch.value = "";
+        riskFilter.value = "all";
     } catch (error) {
         customerTableWrapper.innerHTML = `<p class="placeholder">Failed to load sample customers.</p>`;
         console.error(error);
@@ -82,9 +93,11 @@ async function predictBatch() {
 
         const data = await response.json();
         const results = data.results || [];
+        currentPredictionResults = results;
 
+        predictionControls.classList.remove("hidden");
         renderPredictionSummary(results);
-        renderPredictions(results);
+        applyPredictionFilters();
     } catch (error) {
         predictionTableWrapper.innerHTML = `<p class="placeholder">Prediction request failed.</p>`;
         console.error(error);
@@ -92,6 +105,29 @@ async function predictBatch() {
         predictBtn.disabled = false;
         predictBtn.textContent = "Predict Churn";
     }
+}
+
+function applyPredictionFilters() {
+    let filteredResults = [...currentPredictionResults];
+
+    const searchValue = predictionSearch.value.trim().toLowerCase();
+    const selectedRisk = riskFilter.value;
+
+    if (searchValue) {
+        filteredResults = filteredResults.filter(item =>
+            item.Contract.toLowerCase().includes(searchValue) ||
+            item.PaymentMethod.toLowerCase().includes(searchValue) ||
+            item.InternetService.toLowerCase().includes(searchValue) ||
+            item.OnlineSecurity.toLowerCase().includes(searchValue) ||
+            item.label.toLowerCase().includes(searchValue)
+        );
+    }
+
+    if (selectedRisk !== "all") {
+        filteredResults = filteredResults.filter(item => item.risk_level === selectedRisk);
+    }
+
+    renderPredictions(filteredResults);
 }
 
 function renderCustomers(customers) {
