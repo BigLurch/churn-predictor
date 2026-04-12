@@ -141,15 +141,53 @@ function renderCustomers(customers) {
         return;
     }
 
-    const rows = customers.map(customer => `
+    const contractOptions = ["Month-to-month", "One year", "Two year"];
+    const paymentOptions = ["Electronic check", "Mailed check", "Bank transfer", "Credit card"];
+    const internetOptions = ["DSL", "Fiber optic", "No"];
+    const securityOptions = ["Yes", "No"];
+
+    const rows = customers.map((customer, index) => `
         <tr>
-            <td>${customer.tenure}</td>
-            <td>${customer.MonthlyCharges}</td>
-            <td>${customer.TotalCharges}</td>
-            <td>${customer.Contract}</td>
-            <td>${customer.PaymentMethod}</td>
-            <td>${customer.InternetService}</td>
-            <td>${customer.OnlineSecurity}</td>
+            <td>
+                <input type="number" value="${customer.tenure}" min="1" max="72"
+                    onchange="updateCustomerField(${index}, 'tenure', this.value)" />
+            </td>
+            <td>
+                <input type="number" value="${customer.MonthlyCharges}" min="0" step="0.01"
+                    onchange="updateCustomerField(${index}, 'MonthlyCharges', this.value)" />
+            </td>
+            <td>
+                <input type="number" value="${customer.TotalCharges}" min="0" step="0.01"
+                    onchange="updateCustomerField(${index}, 'TotalCharges', this.value)" />
+            </td>
+            <td>
+                <select onchange="updateCustomerField(${index}, 'Contract', this.value)">
+                    ${contractOptions.map(option => `
+                        <option value="${option}" ${customer.Contract === option ? "selected" : ""}>${option}</option>
+                    `).join("")}
+                </select>
+            </td>
+            <td>
+                <select onchange="updateCustomerField(${index}, 'PaymentMethod', this.value)">
+                    ${paymentOptions.map(option => `
+                        <option value="${option}" ${customer.PaymentMethod === option ? "selected" : ""}>${option}</option>
+                    `).join("")}
+                </select>
+            </td>
+            <td>
+                <select onchange="updateCustomerField(${index}, 'InternetService', this.value)">
+                    ${internetOptions.map(option => `
+                        <option value="${option}" ${customer.InternetService === option ? "selected" : ""}>${option}</option>
+                    `).join("")}
+                </select>
+            </td>
+            <td>
+                <select onchange="updateCustomerField(${index}, 'OnlineSecurity', this.value)">
+                    ${securityOptions.map(option => `
+                        <option value="${option}" ${customer.OnlineSecurity === option ? "selected" : ""}>${option}</option>
+                    `).join("")}
+                </select>
+            </td>
         </tr>
     `).join("");
 
@@ -169,6 +207,20 @@ function renderCustomers(customers) {
             <tbody>${rows}</tbody>
         </table>
     `;
+}
+
+function updateCustomerField(index, field, value) {
+    if (!currentCustomers[index]) {
+        return;
+    }
+
+    if (field === "tenure") {
+        currentCustomers[index][field] = parseInt(value, 10) || 0;
+    } else if (field === "MonthlyCharges" || field === "TotalCharges") {
+        currentCustomers[index][field] = parseFloat(value) || 0;
+    } else {
+        currentCustomers[index][field] = value;
+    }
 }
 
 function renderPredictions(results) {

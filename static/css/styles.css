@@ -202,6 +202,24 @@ table {
     border: 1px solid rgba(56, 189, 248, 0.08);
 }
 
+table input,
+table select {
+    width: 100%;
+    background: #0b1220;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+}
+
+table input:focus,
+table select:focus {
+    outline: none;
+    border-color: rgba(56, 189, 248, 0.6);
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.15);
+}
+
 tbody tr {
     transition: background 0.15s ease;
 }
