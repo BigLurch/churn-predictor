@@ -271,6 +271,23 @@ tr:last-child td {
     flex: 1;
 }
 
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.pagination.hidden {
+    display: none;
+}
+
+.pagination span {
+    color: var(--muted);
+    font-weight: 600;
+}
+
 .placeholder {
     color: var(--muted);
     margin: 0;

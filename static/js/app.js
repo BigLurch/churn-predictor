@@ -2,6 +2,9 @@ let currentCustomers = [];
 let currentPredictionResults = [];
 let currentFilteredPredictionResults = [];
 
+let predictionCurrentPage = 1;
+const predictionRowsPerPage = 20;
+
 const generateBtn = document.getElementById("generate-btn");
 const predictBtn = document.getElementById("predict-btn");
 const customerCountMode = document.getElementById("customer-count-mode");
@@ -13,6 +16,10 @@ const predictionControls = document.getElementById("prediction-controls");
 const predictionSearch = document.getElementById("prediction-search");
 const riskFilter = document.getElementById("risk-filter");
 const downloadCsvBtn = document.getElementById("download-csv-btn");
+const predictionPagination = document.getElementById("prediction-pagination");
+const predictionPrevBtn = document.getElementById("prediction-prev-btn");
+const predictionNextBtn = document.getElementById("prediction-next-btn");
+const predictionPageInfo = document.getElementById("prediction-page-info");
 
 generateBtn.addEventListener("click", generateSampleCustomers);
 predictBtn.addEventListener("click", predictBatch);
@@ -20,6 +27,8 @@ customerCountMode.addEventListener("change", toggleCustomCountInput);
 predictionSearch.addEventListener("input", applyPredictionFilters);
 riskFilter.addEventListener("change", applyPredictionFilters);
 downloadCsvBtn.addEventListener("click", downloadPredictionResultsAsCsv);
+predictionPrevBtn.addEventListener("click", goToPreviousPredictionPage);
+predictionNextBtn.addEventListener("click", goToNextPredictionPage);
 
 function toggleCustomCountInput() {
     if (customerCountMode.value === "custom") {
@@ -66,6 +75,8 @@ async function generateSampleCustomers() {
 
         currentPredictionResults = [];
         currentFilteredPredictionResults = [];
+        predictionCurrentPage = 1;
+        predictionPagination.classList.add("hidden");
         predictionControls.classList.add("hidden");
         predictionSearch.value = "";
         riskFilter.value = "all";
@@ -132,7 +143,8 @@ function applyPredictionFilters() {
     }
 
     currentFilteredPredictionResults = filteredResults;
-    renderPredictions(filteredResults);
+    predictionCurrentPage = 1;
+    renderPaginatedPredictions();
 }
 
 function renderCustomers(customers) {
@@ -226,6 +238,7 @@ function updateCustomerField(index, field, value) {
 function renderPredictions(results) {
     if (!results.length) {
         predictionTableWrapper.innerHTML = `<p class="placeholder">No prediction results available.</p>`;
+        predictionPagination.classList.add("hidden");
         return;
     }
 
@@ -235,7 +248,7 @@ function renderPredictions(results) {
             <td>${item.Contract}</td>
             <td>${item.MonthlyCharges}</td>
             <td>${item.prediction}</td>
-            <td>${item.probability.toFixed(3)}</td>
+            <td>${Number(item.probability).toFixed(3)}</td>
             <td><span class="label-pill">${item.label}</span></td>
             <td class="risk-${item.risk_level}">${item.risk_level}</td>
         </tr>
@@ -257,6 +270,53 @@ function renderPredictions(results) {
             <tbody>${rows}</tbody>
         </table>
     `;
+}
+
+function renderPaginatedPredictions() {
+    if (!currentFilteredPredictionResults.length) {
+        renderPredictions([]);
+        return;
+    }
+
+    const totalRows = currentFilteredPredictionResults.length;
+    const totalPages = Math.ceil(totalRows / predictionRowsPerPage);
+
+    const startIndex = (predictionCurrentPage - 1) * predictionRowsPerPage;
+    const endIndex = startIndex + predictionRowsPerPage;
+
+    const paginatedResults = currentFilteredPredictionResults.slice(startIndex, endIndex);
+
+    renderPredictions(paginatedResults);
+    renderPredictionPagination(totalPages);
+}
+
+function renderPredictionPagination(totalPages) {
+    if (totalPages <= 1) {
+        predictionPagination.classList.add("hidden");
+        return;
+    }
+
+    predictionPagination.classList.remove("hidden");
+    predictionPageInfo.textContent = `Page ${predictionCurrentPage} of ${totalPages}`;
+
+    predictionPrevBtn.disabled = predictionCurrentPage === 1;
+    predictionNextBtn.disabled = predictionCurrentPage === totalPages;
+}
+
+function goToPreviousPredictionPage() {
+    if (predictionCurrentPage > 1) {
+        predictionCurrentPage -= 1;
+        renderPaginatedPredictions();
+    }
+}
+
+function goToNextPredictionPage() {
+    const totalPages = Math.ceil(currentFilteredPredictionResults.length / predictionRowsPerPage);
+
+    if (predictionCurrentPage < totalPages) {
+        predictionCurrentPage += 1;
+        renderPaginatedPredictions();
+    }
 }
 
 function renderPredictionSummary(results) {
