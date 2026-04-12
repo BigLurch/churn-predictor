@@ -5,8 +5,10 @@ let currentFilteredPredictionResults = [];
 let predictionCurrentPage = 1;
 const predictionRowsPerPage = 20;
 
-const generateBtn = document.getElementById("generate-btn");
 const predictBtn = document.getElementById("predict-btn");
+const predictSpinner = predictBtn.querySelector(".btn-spinner");
+const predictBtnText = predictBtn.querySelector(".btn-text");
+const generateBtn = document.getElementById("generate-btn");
 const customerCountMode = document.getElementById("customer-count-mode");
 const customerCountCustom = document.getElementById("customer-count-custom");
 const customerTableWrapper = document.getElementById("customer-table-wrapper");
@@ -97,7 +99,8 @@ async function generateSampleCustomers() {
 async function predictBatch() {
     try {
         predictBtn.disabled = true;
-        predictBtn.textContent = "Predicting...";
+        predictSpinner.classList.remove("hidden");
+        predictBtnText.textContent = "Predicting...";
 
         const response = await fetch("/predict-batch", {
             method: "POST",
@@ -124,7 +127,8 @@ async function predictBatch() {
         console.error(error);
     } finally {
         predictBtn.disabled = false;
-        predictBtn.textContent = "Predict Churn";
+        predictSpinner.classList.add("hidden");
+        predictBtnText.textContent = "Predict Churn";
     }
 }
 
