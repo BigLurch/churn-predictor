@@ -11,16 +11,49 @@
 <body>
     <main class="container">
         <section class="hero">
-            <h1>Churn Predictor</h1>
+            <h1>Production-Ready Customer Churn Prediction System</h1>
+
             <p>
-                A production-inspired MLOps project for customer churn prediction.
-                Generate sample customers, run batch predictions, and explore model outputs in a simple demo UI.
+                An end-to-end MLOps project featuring synthetic customer generation,
+                batch predictions, model serving, monitoring, and live cloud deployment.
             </p>
 
+            <div class="badges">
+                <span class="badge">FastAPI</span>
+                <span class="badge">Scikit-learn</span>
+                <span class="badge">Docker</span>
+                <span class="badge">MLflow</span>
+                <span class="badge">CI/CD</span>
+                <span class="badge">Render</span>
+            </div>
+
+            <div class="hero-stats">
+                <div class="hero-stat-card">
+                    <span class="hero-stat-label">Model Accuracy</span>
+                    <span class="hero-stat-value">0.84</span>
+                </div>
+                <div class="hero-stat-card">
+                    <span class="hero-stat-label">API Status</span>
+                    <span class="hero-stat-value">Live</span>
+                </div>
+                <div class="hero-stat-card">
+                    <span class="hero-stat-label">Deployment</span>
+                    <span class="hero-stat-value">Render</span>
+                </div>
+                <div class="hero-stat-card">
+                    <span class="hero-stat-label">Workflow</span>
+                    <span class="hero-stat-value">CI/CD Enabled</span>
+                </div>
+            </div>
+
             <div class="hero-links">
-                <a href="/docs" target="_blank" rel="noreferrer">API Docs</a>
-                <a href="/health" target="_blank" rel="noreferrer">Health Check</a>
-                <a href="/metrics" target="_blank" rel="noreferrer">Metrics</a>
+                <a href="/docs" target="_blank">API Docs</a>
+                <a href="/health" target="_blank">Health Check</a>
+                <a href="/metrics" target="_blank">Metrics</a>
+                <a href="https://github.com/BigLurch/churn-predictor?tab=readme-ov-file" target="_blank"
+                    rel="noreferrer">
+                    View Source Code
+                </a>
             </div>
         </section>
 
@@ -31,13 +64,13 @@
                     <label for="customer-count-mode">Number of customers:</label>
 
                     <select id="customer-count-mode">
-                        <option value="5">5</option>
                         <option value="10">10</option>
+                        <option value="50">50</option>
                         <option value="custom">Custom</option>
                     </select>
 
-                    <input type="number" id="customer-count-custom" min="1" max="100" value=""
-                        placeholder="Between 1-100" class="hidden-input" />
+                    <input type="number" id="customer-count-custom" min="1" max="1000" value=""
+                        placeholder="Between 1-1000" class="hidden-input" />
 
                     <button id="generate-btn">Generate Sample Customers</button>
                 </div>
@@ -58,6 +91,10 @@
             </div>
         </section>
     </main>
+
+    <footer class="footer">
+        © 2026 Jonas Johansson - Built as an MLOps Portfolio Project
+    </footer>
 
     <script src="/static/js/app.js"></script>
 </body>

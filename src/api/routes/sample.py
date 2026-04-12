@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get("/sample-customers")
-def get_sample_customers(count: int = Query(default=5, ge=1, le=100)):
+def get_sample_customers(count: int = Query(default=5, ge=1, le=1000)):
     contracts = ["Month-to-month", "One year", "Two year"]
     payment_methods = ["Electronic check", "Mailed check", "Bank transfer", "Credit card"]
     internet_services = ["DSL", "Fiber optic", "No"]

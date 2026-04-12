@@ -30,8 +30,9 @@ async function generateSampleCustomers() {
         if (customerCountMode.value === "custom") {
             count = parseInt(customerCountCustom.value, 10);
 
-            if (!count || count < 1 || count > 100) {
-                customerTableWrapper.innerHTML = `<p class="placeholder">Please enter a custom number between 1 and 100.</p>`;
+            if (!count || count < 1 || count > 1000) {
+                customerTableWrapper.innerHTML =
+                    `<p class="placeholder">Please enter a custom number between 1 and 1000.</p>`;
                 return;
             }
         } else {
@@ -170,11 +171,37 @@ function renderPredictionSummary(results) {
     const medium = results.filter(r => r.risk_level === "medium").length;
     const low = results.filter(r => r.risk_level === "low").length;
 
+    const total = results.length;
+
+    const highWidth = (high / total) * 100;
+    const mediumWidth = (medium / total) * 100;
+    const lowWidth = (low / total) * 100;
+
     predictionSummary.innerHTML = `
-        <div class="summary-badge">Total Customers: ${results.length}</div>
-        <div class="summary-badge risk-high">High Risk: ${high}</div>
-        <div class="summary-badge risk-medium">Medium Risk: ${medium}</div>
-        <div class="summary-badge risk-low">Low Risk: ${low}</div>
+        <div class="summary-card">
+            <strong>Total Customers:</strong> ${total}
+        </div>
+
+        <div class="chart-row">
+            <span>High Risk (${high})</span>
+            <div class="bar">
+                <div class="fill high-fill" style="width:${highWidth}%"></div>
+            </div>
+        </div>
+
+        <div class="chart-row">
+            <span>Medium Risk (${medium})</span>
+            <div class="bar">
+                <div class="fill medium-fill" style="width:${mediumWidth}%"></div>
+            </div>
+        </div>
+
+        <div class="chart-row">
+            <span>Low Risk (${low})</span>
+            <div class="bar">
+                <div class="fill low-fill" style="width:${lowWidth}%"></div>
+            </div>
+        </div>
     `;
 
     predictionSummary.classList.remove("hidden");
