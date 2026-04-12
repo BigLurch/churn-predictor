@@ -1,5 +1,6 @@
 let currentCustomers = [];
 let currentPredictionResults = [];
+let currentFilteredPredictionResults = [];
 
 const generateBtn = document.getElementById("generate-btn");
 const predictBtn = document.getElementById("predict-btn");
@@ -11,12 +12,14 @@ const predictionSummary = document.getElementById("prediction-summary");
 const predictionControls = document.getElementById("prediction-controls");
 const predictionSearch = document.getElementById("prediction-search");
 const riskFilter = document.getElementById("risk-filter");
+const downloadCsvBtn = document.getElementById("download-csv-btn");
 
 generateBtn.addEventListener("click", generateSampleCustomers);
 predictBtn.addEventListener("click", predictBatch);
 customerCountMode.addEventListener("change", toggleCustomCountInput);
 predictionSearch.addEventListener("input", applyPredictionFilters);
 riskFilter.addEventListener("change", applyPredictionFilters);
+downloadCsvBtn.addEventListener("click", downloadPredictionResultsAsCsv);
 
 function toggleCustomCountInput() {
     if (customerCountMode.value === "custom") {
@@ -62,6 +65,7 @@ async function generateSampleCustomers() {
         predictionSummary.innerHTML = "";
 
         currentPredictionResults = [];
+        currentFilteredPredictionResults = [];
         predictionControls.classList.add("hidden");
         predictionSearch.value = "";
         riskFilter.value = "all";
@@ -127,6 +131,7 @@ function applyPredictionFilters() {
         filteredResults = filteredResults.filter(item => item.risk_level === selectedRisk);
     }
 
+    currentFilteredPredictionResults = filteredResults;
     renderPredictions(filteredResults);
 }
 
@@ -241,6 +246,51 @@ function renderPredictionSummary(results) {
     `;
 
     predictionSummary.classList.remove("hidden");
+}
+
+function downloadPredictionResultsAsCsv() {
+    if (!currentFilteredPredictionResults.length) {
+        return;
+    }
+
+    const headers = [
+        "tenure",
+        "MonthlyCharges",
+        "TotalCharges",
+        "Contract",
+        "PaymentMethod",
+        "InternetService",
+        "OnlineSecurity",
+        "prediction",
+        "probability",
+        "label",
+        "risk_level"
+    ];
+
+    const csvRows = [
+        headers.join(","),
+        ...currentFilteredPredictionResults.map(row =>
+            headers.map(header => {
+                const value = row[header];
+                const escaped = String(value).replace(/"/g, '""');
+                return `"${escaped}"`;
+            }).join(",")
+        )
+    ];
+
+    const csvContent = csvRows.join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const timestamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-");
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `churn_predictions_${timestamp}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
 }
 
 toggleCustomCountInput();
